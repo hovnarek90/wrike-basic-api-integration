@@ -1,11 +1,11 @@
-import axios from "axios";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
+import axios from "axios";
 
 dotenv.config();
 
 const API_TOKEN = process.env.WRIKE_API_TOKEN;
-const API_URL = "https://www.wrike.com/api/v4/tasks";
+const API_URL = "https://www.wrike.com";
 
 if (!API_TOKEN) {
   console.error("Please provide a Wrike API token in the .env file.");
@@ -25,7 +25,7 @@ interface WrikeTask {
 
 async function fetchTasks(): Promise<void> {
   try {
-    const response = await axios.get(API_URL, {
+    const response = await axios.get(API_URL + "/api/v4/tasks", {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
