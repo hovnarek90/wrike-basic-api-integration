@@ -29,25 +29,22 @@ async function fetchTasks(): Promise<void> {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
-      
     });
 
     const tasks: WrikeTask[] = response.data.data.map((task: any) => ({
       id: task.id,
       name: task.title,
-      assignees: task.responsibles,
+      assignees: task.responsibles || [],
       status: task.status,
-      collections: task.parentIds,
+      collections: task.parentIds || [],
       created_at: task.createdDate,
       updated_at: task.updatedDate,
       ticket_url: task.permalink,
     }));
 
     fs.writeFileSync("tasks.json", JSON.stringify(tasks, null, 2));
-    console.log("Tasks saved to tasks.json");
   } catch (error: any) {
     console.error("Error fetching tasks:", error.message || error);
   }
 }
-
 fetchTasks();
